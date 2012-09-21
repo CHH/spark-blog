@@ -8,6 +8,8 @@
         <?= $this->assetLinkTag('screen.less') ?>
     </head>
     <body>
+        <h1><a href="/">My awesome Blog</a></h1>
+
         <?php foreach ($this->flash()->get('notice', []) as $flash): ?>
         <div class="flash-notice">
             <?= $flash ?>
