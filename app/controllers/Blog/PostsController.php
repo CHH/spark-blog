@@ -31,7 +31,7 @@ class PostsController extends ApplicationController
         $posts = $db->posts;
 
         if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
-            return $this->render(['status' => 404, 'html' => "<h1>Not Found</h1>"]);
+            return $this->application->abort(404);
         }
 
         $md = new MarkdownExtraParser;
@@ -57,7 +57,7 @@ class PostsController extends ApplicationController
         }
 
         if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
-            return $this->render(['status' => 404, 'html' => "<h1>Not Found</h1>"]);
+            return $this->application->abort(404);
         }
     }
 

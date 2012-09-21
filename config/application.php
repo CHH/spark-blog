@@ -22,5 +22,10 @@ class ViewContext extends \Spark\Controller\ViewContext
     # Include your custom view helpers here.
 }
 
+$app->error(function(\Exception $e, $code) use ($app) {
+    $renderPipeline = $app['spark.render_pipeline'];
+    return $renderPipeline->render(['script' => "error/$code.phtml"]);
+});
+
 require __DIR__ . '/database.php';
 
