@@ -1,0 +1,22 @@
+<header>
+    <h2>Create Post</h2>
+</header>
+
+<form action="/posts/create" method="POST">
+    <section>
+        <label>
+            Title
+            <input type="text" name="post[title]">
+        </label>
+    </section>
+
+    <section>
+        <label for="content">Content</label>
+        <textarea id="content" name="post[content]"></textarea>
+    </section>
+
+    <footer>
+        <input type="submit" value="Create Post!">
+        or <a href="/">Cancel</a>
+    </footer>
+</form>

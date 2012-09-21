@@ -1,0 +1,20 @@
+<h1>Edit Post "<?= $this->post['title'] ?>"</h1>
+
+<form action="/posts/edit/<?= $this->post['_id'] ?>" method="POST">
+    <section>
+        <label>
+            Title
+            <input name="post[title]" value="<?= $this->post['title'] ?>">
+        </label>
+    </section>
+
+    <section>
+        <label for="content">Content</label>
+        <textarea id="content" name="post[content]"><?= $this->post['content'] ?></textarea>
+    </section>
+
+    <footer>
+        <input type="submit" value="Save this Post!">
+        or <a href="/posts/show/<?= $this->post['_id'] ?>">Cancel</a>
+    </footer>
+</form>

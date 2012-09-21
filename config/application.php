@@ -1,8 +1,8 @@
 <?php
 
-namespace MyApp;
+namespace Blog;
 
-$app['spark.app.name'] = 'MyApp';
+$app['spark.app.name'] = 'Blog';
 # $app['spark.view_context_class'] = '\MyApp\ViewContext';
 
 # All your controller and model classes are loaded from this namespaces. By
@@ -21,4 +21,6 @@ class ViewContext extends \Spark\Controller\ViewContext
 {
     # Include your custom view helpers here.
 }
+
+require __DIR__ . '/database.php';
 
