@@ -21,7 +21,7 @@ class PostsController extends ApplicationController
 
             $this->flash()->add('notice', 'Post created.');
 
-            return $this->redirect(['controller' => 'posts', 'action' => 'show', 'id' => (string) $post['_id']]);
+            return $this->redirect(['action' => 'show', 'id' => (string) $post['_id']]);
         }
     }
 
@@ -53,7 +53,7 @@ class PostsController extends ApplicationController
             $posts->save($this->post);
 
             $this->flash()->add('notice', "Post saved.");
-            return $this->redirect(['controller' => 'posts', 'action' => 'show', 'id' => (string) $this->post['_id']]);
+            return $this->redirect(['action' => 'show', 'id' => (string) $this->post['_id']]);
         }
 
         if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
@@ -68,7 +68,7 @@ class PostsController extends ApplicationController
 
         $this->flash()->add('notice', "Post removed.");
 
-        return $this->redirect(['controller' => 'posts', 'action' => 'index']);
+        return $this->redirect(['action' => 'index']);
     }
 
     function permalink($slug)
