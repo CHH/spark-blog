@@ -10,6 +10,11 @@ class PostsController extends ApplicationController
     {
         $posts = $this->application['db']->posts->find()->sort(['created' => -1]);
 
+        # There's no magic involved here, it's just that PHP allows creating properties
+        # without defining them. The view is then bound to the controller instance, therefore
+        # this property is also available in the view.
+        #
+        # You can define this property by the way, make sure it's public though.
         $this->posts = [];
 
         foreach ($posts as $post) {
@@ -23,7 +28,8 @@ class PostsController extends ApplicationController
     function create()
     {
         if ($this->request()->isMethod('POST')) {
-            $post = $this->request()->get('post');
+            # Whitelist 'title' and 'content' keys
+            $post = array_intersect_key($this->request()->get('post'), array_flip(['title', 'content']));
             $post['created'] = new \MongoDate();
 
             $this->application['db']->posts->save($post);
@@ -55,8 +61,10 @@ class PostsController extends ApplicationController
         if ($this->request()->isMethod('POST')) {
             $this->post = $posts->findOne(['_id' => new \MongoId($id)]);
 
-            $this->post = array_merge($this->post, $this->request()->get('post'));
-            $this->post['_id'] = new \MongoId($id);
+            # Allow the user to only set title and content
+            $post = array_intersect_key($this->request()->get('post'), array_flip(['title', 'content']));
+
+            $this->post = array_merge($this->post, $post);
             $this->post['updated'] = new \MongoDate();
 
             $posts->save($this->post);
