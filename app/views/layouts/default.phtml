@@ -8,14 +8,24 @@
         <?= $this->assetLinkTag('screen.less') ?>
     </head>
     <body>
-        <h1><a href="/">My awesome Blog</a></h1>
+        <header role="banner">
+            <h1><a href="/">My awesome Blog</a></h1>
+        </header>
 
-        <?php foreach ($this->flash()->get('notice', []) as $flash): ?>
-        <div class="flash-notice">
-            <?= $flash ?>
-        </div>
-        <?php endforeach ?>
+        <section id="flash">
+            <?php foreach ($this->flash()->get('notice', []) as $flash): ?>
+            <div class="flash-notice">
+                <?= $flash ?>
+            </div>
+            <?php endforeach ?>
+        </section>
 
-        <?= $this->block('content') ?>
+        <section role="main">
+            <?= $this->block('content') ?>
+        </section>
+
+        <footer>
+            <p>Built with <a href="http://github.com/CHH/spark">Spark Framework</a></p>
+        </footer>
     </body>
 </html>

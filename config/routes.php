@@ -8,8 +8,5 @@ $app['controllers']->draw(function($routes) {
         ->value('action', 'index')
         ->value('id', null)
         ->bind('default');
-
-    $routes->get('/{post}', 'posts#show')
-        ->assert('post', '.+');
 });
 

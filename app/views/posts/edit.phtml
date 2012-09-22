@@ -1,14 +1,14 @@
 <h2>Edit Post "<?= $this->post['title'] ?>"</h2>
 
-<form action="/posts/edit/<?= $this->post['_id'] ?>" method="POST">
-    <section>
+<form class="post" action="/posts/edit/<?= $this->post['_id'] ?>" method="POST">
+    <section class="title">
         <label>
             Title
             <input name="post[title]" value="<?= $this->post['title'] ?>">
         </label>
     </section>
 
-    <section>
+    <section class="content">
         <label for="content">Content</label>
         <textarea id="content" name="post[content]"><?= $this->post['content'] ?></textarea>
     </section>

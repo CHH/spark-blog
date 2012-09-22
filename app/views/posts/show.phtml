@@ -1,11 +1,14 @@
 <article>
     <header>
         <h1><?= $this->post['title'] ?></h1>
-        Created <time><?= date('d/m/Y H:i', $this->post['created']->sec) ?></time>
 
-        <?php if (isset($this->post['updated'])): ?>
-        , Last Updated <time><?= date('d/m/Y H:i', $this->post['updated']->sec) ?></time>
-        <?php endif ?>
+        <div class="article-info">
+            Created <time><?= date('d/m/Y H:i', $this->post['created']->sec) ?></time>
+
+            <?php if (isset($this->post['updated'])): ?>
+            , Last Updated <time><?= date('d/m/Y H:i', $this->post['updated']->sec) ?></time>
+            <?php endif ?>
+        </div>
     </header>
 
     <section class="content">

@@ -6,10 +6,5 @@
         "spark/spark": "*@dev",
         "dflydev/markdown": "*@dev"
     },
-    "minimum-stability": "dev",
-    "autoload": {
-        "psr-0": {
-            "Spark\\": "lib/"
-        }
-    }
+    "minimum-stability": "dev"
 }
