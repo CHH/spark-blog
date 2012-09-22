@@ -1,0 +1,15 @@
+{
+    "repositories": [
+        { "type": "vcs", "url": "git@github.com:CHH/spark" }
+    ],
+    "require": {
+        "spark/spark": "*@dev",
+        "dflydev/markdown": "*@dev"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "Spark\\": "lib/"
+        }
+    }
+}
