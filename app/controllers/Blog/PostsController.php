@@ -58,9 +58,11 @@ class PostsController extends ApplicationController
     {
         $posts = $this->application['db']->posts;
 
-        if ($this->request()->isMethod('POST')) {
-            $this->post = $posts->findOne(['_id' => new \MongoId($id)]);
+        if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
+            return $this->application->abort(404);
+        }
 
+        if ($this->request()->isMethod('POST')) {
             # Allow the user to only set title and content
             $post = array_intersect_key($this->request()->get('post'), array_flip(['title', 'content']));
 
@@ -71,10 +73,6 @@ class PostsController extends ApplicationController
 
             $this->flash()->add('notice', "Post saved.");
             return $this->redirect(['action' => 'show', 'id' => (string) $this->post['_id']]);
-        }
-
-        if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
-            return $this->application->abort(404);
         }
     }
 
