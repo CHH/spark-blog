@@ -3,16 +3,16 @@
 </header>
 
 <form class="post" action="/posts/create" method="POST">
-    <section>
+    <section class="title">
         <label>
             Title
-            <input type="text" name="post[title]">
+            <input type="text" name="post[title]" placeholder="For example: Why rainbow-shitting Unicorns rock">
         </label>
     </section>
 
-    <section>
+    <section class="content">
         <label for="content">Content</label>
-        <textarea id="content" name="post[content]"></textarea>
+        <textarea id="content" name="post[content]" placeholder="Put your content here."></textarea>
     </section>
 
     <footer>

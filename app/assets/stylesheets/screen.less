@@ -28,6 +28,24 @@ article {
             margin: 0.5em 0;
         }
 
+        .admin-options {
+            overflow: hidden;
+            margin-left: -10px;
+
+            > a {
+                display: inline-block;
+                float: left;
+                padding: 10px;
+                margin: 0 4px 0 0;
+                border-radius: 4px;
+
+                &:hover {
+                    background: #eef;
+                    text-decoration: none;
+                }
+            }
+        }
+
         .article-info {
             font-size: 14px;
             color: #888;
@@ -37,23 +55,9 @@ article {
     > .content {
         font-size: 18px;
     }
-
-    > footer {
-        border-top: 1px dashed #bbb;
-
-        > a {
-            display: inline-block;
-            padding: 10px;
-
-            &:hover {
-                background: #f9f9f9;
-            }
-        }
-    }
 }
 
 form.post {
-    border: 1px solid #888;
     border-radius: 3px;
 
     label {
@@ -63,7 +67,7 @@ form.post {
     }
 
     > section, > footer {
-        padding: 10px 20px;
+        padding: 10px 0;
     }
 
     section.title {
@@ -71,12 +75,15 @@ form.post {
 
         label {
             color: #666;
+            display: block;
         }
 
         input {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
             outline: none;
-            width: 500px;
-            margin-left: 10px;
+            margin-top: 10px;
+            width: 100%;
             font-size: 28px;
             font-weight: 700;
             border: none;
@@ -91,12 +98,15 @@ form.post {
 
         > textarea {
             -webkit-box-sizing: border-box;
+            box-sizing: border-box;
             border: none;
             background: #f9f9f9;
+            border-radius: 4px;
             padding: 20px;
             width: 100%;
             max-width: 100%;
-            height: 400px;
+            height: auto;
+            min-height: 400px;
             font-family: Menlo, Consolas, "Droid Sans Mono", monospace;
             font-size: 18px;
         }
