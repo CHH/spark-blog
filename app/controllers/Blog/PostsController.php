@@ -8,12 +8,21 @@ class PostsController extends ApplicationController
 {
     function index()
     {
-        $this->posts = $this->application['db']->posts->find();
+        $posts = $this->application['db']->posts->find()->sort(['created' => -1]);
+
+        $this->posts = [];
+
+        foreach ($posts as $post) {
+            $date = new \DateTime();
+            $date->setTimestamp($post['created']->sec);
+
+            $this->posts[$date->format('M d Y')][] = $post;
+        }
     }
 
     function create()
     {
-        if ($this->request()->getMethod() === 'POST') {
+        if ($this->request()->isMethod('POST')) {
             $post = $this->request()->get('post');
             $post['created'] = new \MongoDate();
 
@@ -43,7 +52,7 @@ class PostsController extends ApplicationController
     {
         $posts = $this->application['db']->posts;
 
-        if ($this->request()->getMethod() === 'POST') {
+        if ($this->request()->isMethod('POST')) {
             $this->post = $posts->findOne(['_id' => new \MongoId($id)]);
 
             $this->post = array_merge($this->post, $this->request()->get('post'));

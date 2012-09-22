@@ -5,9 +5,12 @@
         <a href="/posts/create">Write a Post</a>
     </p>
 
-    <ul>
-    <?php foreach ($this->posts as $post): ?>
-        <li><a href="/posts/show/<?= $post['_id'] ?>"><?= $post['title'] ?></a></li>
+    <dl>
+    <?php foreach ($this->posts as $date => $posts): ?>
+        <dt><?= $date ?></dt>
+        <?php foreach ($posts as $post): ?>
+        <dd><a href="/posts/show/<?= $post['_id'] ?>"><?= $post['title'] ?></a></dd>
+        <?php endforeach ?>
     <?php endforeach ?>
-    </ul>
+    </dl>
 </section>
