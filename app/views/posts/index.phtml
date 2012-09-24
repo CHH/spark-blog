@@ -2,14 +2,14 @@
     <h2>Posts</h2>
 
     <p>
-        <a href="/posts/new">Write a Post</a>
+        <a href="<?= $this->urlFor('posts_new') ?>">Write a Post</a>
     </p>
 
     <dl>
     <?php foreach ($this->posts as $date => $posts): ?>
         <dt><?= $date ?></dt>
         <?php foreach ($posts as $post): ?>
-        <dd><a href="/posts/show/<?= $post['_id'] ?>"><?= $post['title'] ?></a></dd>
+        <dd><a href="<?= $this->urlFor('posts_show', ['params' => ['id' => $post['_id']]]) ?>"><?= $post['title'] ?></a></dd>
         <?php endforeach ?>
     <?php endforeach ?>
     </dl>

@@ -8,7 +8,7 @@ class PostsController extends ApplicationController
 {
     function indexAction()
     {
-        $posts = $this->application['db']->posts->find()->sort(['created' => -1]);
+        $posts = $this->posts()->find()->sort(['created' => -1]);
 
         # There's no magic involved here, it's just that PHP allows creating properties
         # without defining them. The view is then bound to the controller instance, therefore
@@ -33,9 +33,10 @@ class PostsController extends ApplicationController
     {
         # Whitelist 'title' and 'content' keys
         $post = array_intersect_key($this->request()->request->get('post'), array_flip(['title', 'content']));
+        $post['slug'] = $this->slugify($post['title']);
         $post['created'] = new \MongoDate();
 
-        $this->application['db']->posts->save($post);
+        $this->posts()->save($post);
 
         $this->flash()->add('notice', 'Post created.');
 
@@ -44,11 +45,8 @@ class PostsController extends ApplicationController
 
     function showAction($id)
     {
-        $db = $this->application['db'];
-        $posts = $db->posts;
-
-        if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
-            return $this->application->abort(404);
+        if (!$this->post = $this->posts()->findOne(['_id' => new \MongoId($id)])) {
+            return $this->notFound();
         }
 
         $md = new MarkdownExtraParser;
@@ -58,23 +56,23 @@ class PostsController extends ApplicationController
 
     function editAction($id)
     {
-        $posts = $this->application['db']->posts;
-
-        if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
-            return $this->application->abort(404);
+        if (!$this->post = $this->posts()->findOne(['_id' => new \MongoId($id)])) {
+            return $this->notFound();
         }
     }
 
     function updateAction($id)
     {
-        $posts = $this->application['db']->posts;
+        $posts = $this->posts();
 
         if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
-            return $this->application->abort(404);
+            return $this->notFound();
         }
 
         # Allow the user to only set title and content
         $post = array_intersect_key($this->request()->get('post'), array_flip(['title', 'content']));
+        $post['slug'] = $this->slugify($post['title']);
+
 
         $this->post = array_merge($this->post, $post);
         $this->post['updated'] = new \MongoDate();
@@ -82,13 +80,12 @@ class PostsController extends ApplicationController
         $posts->save($this->post);
 
         $this->flash()->add('notice', "Post saved.");
-        return $this->redirect(['action' => 'show', 'id' => (string) $this->post['_id']]);
+        return $this->redirect('posts_show', ['params' => ['id' => (string) $this->post['_id']]]);
     }
 
     function deleteAction($id)
     {
-        $posts = $this->application['db']->posts;
-        $posts->remove(['_id' => new \MongoId($id)]);
+        $this->posts()->remove(['_id' => new \MongoId($id)]);
 
         $this->flash()->add('notice', "Post removed.");
 
@@ -97,5 +94,22 @@ class PostsController extends ApplicationController
 
     function permalinkAction($slug)
     {
+        if (!$this->post = $this->posts()->findOne(['slug' => $slug])) {
+            return $this->notFound();
+        }
+
+        return $this->forward('posts_show', ['params' => ['id' => (string) $this->post['_id']]]);
+    }
+
+    protected function posts()
+    {
+        return $this->application['db']->posts;
+    }
+
+    protected function slugify($title)
+    {
+        $slug = str_replace(array(' '), '-', $title);
+        $slug = strtolower($slug);
+        return $slug;
     }
 }

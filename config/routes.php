@@ -5,6 +5,8 @@ $app['controllers']->draw(function($routes) {
 
     $routes->resources("posts");
 
+    $routes->get('/{slug}', 'posts#permalink')->assert('slug', '.+');
+
     $routes->match('/{controller}/{action}/{id}', null)
         ->value('controller', 'index')
         ->value('action', 'index')
