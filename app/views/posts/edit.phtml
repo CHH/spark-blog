@@ -1,4 +1,4 @@
-<form class="post" action="/posts/edit/<?= $this->post['_id'] ?>" method="POST">
+<form class="post" action="/posts/<?= $this->post['_id'] ?>" method="POST">
     <section class="title">
         <label>
             Title
@@ -13,6 +13,8 @@
 
     <footer>
         <input type="submit" value="Save this Post!">
-        or <a href="/posts/show/<?= $this->post['_id'] ?>">Cancel</a>
+        or <a href="/posts/<?= $this->post['_id'] ?>">Cancel</a>
     </footer>
+
+    <input type="hidden" name="_method" value="PUT">
 </form>

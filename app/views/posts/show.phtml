@@ -1,8 +1,12 @@
 <article>
     <header>
         <div class="admin-options">
-            <a href="<?= $this->urlFor(['action' => 'edit', 'id' => $this->post['_id']]) ?>">Edit this Post</a>
-            <a href="<?= $this->urlFor(['action' => 'delete', 'id' => $this->post['_id']]) ?>">Delete</a>
+            <a href="/posts/<?= $this->post['_id'] ?>/edit">Edit this Post</a>
+
+            <form class="delete inline" action="/posts/<?= $this->post['_id'] ?>" method="POST">
+                <input onclick="return confirm('Are you sure?');" type=submit value="Delete">
+                <input type=hidden name="_method" value="DELETE">
+            </form>
         </div>
 
         <h1><?= $this->post['title'] ?></h1>

@@ -6,7 +6,7 @@ use dflydev\markdown\MarkdownExtraParser;
 
 class PostsController extends ApplicationController
 {
-    function index()
+    function indexAction()
     {
         $posts = $this->application['db']->posts->find()->sort(['created' => -1]);
 
@@ -25,22 +25,24 @@ class PostsController extends ApplicationController
         }
     }
 
-    function create()
+    function newAction()
     {
-        if ($this->request()->isMethod('POST')) {
-            # Whitelist 'title' and 'content' keys
-            $post = array_intersect_key($this->request()->get('post'), array_flip(['title', 'content']));
-            $post['created'] = new \MongoDate();
-
-            $this->application['db']->posts->save($post);
-
-            $this->flash()->add('notice', 'Post created.');
-
-            return $this->redirect(['action' => 'show', 'id' => (string) $post['_id']]);
-        }
     }
 
-    function show($id)
+    function createAction()
+    {
+        # Whitelist 'title' and 'content' keys
+        $post = array_intersect_key($this->request()->request->get('post'), array_flip(['title', 'content']));
+        $post['created'] = new \MongoDate();
+
+        $this->application['db']->posts->save($post);
+
+        $this->flash()->add('notice', 'Post created.');
+
+        return $this->redirect("/posts/{$post['_id']}");
+    }
+
+    function showAction($id)
     {
         $db = $this->application['db'];
         $posts = $db->posts;
@@ -54,7 +56,16 @@ class PostsController extends ApplicationController
         $this->post['content'] = $md->transformMarkdown($this->post['content']);
     }
 
-    function edit($id)
+    function editAction($id)
+    {
+        $posts = $this->application['db']->posts;
+
+        if (!$this->post = $posts->findOne(['_id' => new \MongoId($id)])) {
+            return $this->application->abort(404);
+        }
+    }
+
+    function updateAction($id)
     {
         $posts = $this->application['db']->posts;
 
@@ -62,21 +73,19 @@ class PostsController extends ApplicationController
             return $this->application->abort(404);
         }
 
-        if ($this->request()->isMethod('POST')) {
-            # Allow the user to only set title and content
-            $post = array_intersect_key($this->request()->get('post'), array_flip(['title', 'content']));
+        # Allow the user to only set title and content
+        $post = array_intersect_key($this->request()->get('post'), array_flip(['title', 'content']));
 
-            $this->post = array_merge($this->post, $post);
-            $this->post['updated'] = new \MongoDate();
+        $this->post = array_merge($this->post, $post);
+        $this->post['updated'] = new \MongoDate();
 
-            $posts->save($this->post);
+        $posts->save($this->post);
 
-            $this->flash()->add('notice', "Post saved.");
-            return $this->redirect(['action' => 'show', 'id' => (string) $this->post['_id']]);
-        }
+        $this->flash()->add('notice', "Post saved.");
+        return $this->redirect(['action' => 'show', 'id' => (string) $this->post['_id']]);
     }
 
-    function delete($id)
+    function deleteAction($id)
     {
         $posts = $this->application['db']->posts;
         $posts->remove(['_id' => new \MongoId($id)]);
@@ -86,7 +95,7 @@ class PostsController extends ApplicationController
         return $this->redirect(['action' => 'index']);
     }
 
-    function permalink($slug)
+    function permalinkAction($slug)
     {
     }
 }
