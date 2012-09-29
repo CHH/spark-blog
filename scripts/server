@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+require_once(__DIR__ . "/../vendor/autoload.php");
+
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\ProcessBuilder;
+
+$serverName = @$argv[1] ?: "localhost";
+$port = @$argv[2] ?: 3000;
+
+$builder = new ProcessBuilder();
+$builder->add((new PhpExecutableFinder)->find());
+
+# Start PHP in development server mode
+$builder->add('-S');
+$builder->add("$serverName:$port");
+
+# Add the document root
+$builder->add('-t');
+$builder->add(__DIR__ . '/../public');
+
+# Add the router script
+$builder->add(__DIR__ . '/../public/index.php');
+
+$process = $builder->getProcess();
+$process->setTimeout(null);
+
+printf("Running development server on %s:%d ..." . PHP_EOL, $serverName, $port);
+$process->run(function($type, $err) {
+    fwrite(STDERR, "$err\n");
+});
+
