@@ -4,7 +4,8 @@
     ],
     "require": {
         "spark/spark": "*@dev",
-        "dflydev/markdown": "*@dev"
+        "dflydev/markdown": "*@dev",
+        "ext-mongo": "*"
     },
     "minimum-stability": "dev"
 }
