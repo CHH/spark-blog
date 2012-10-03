@@ -1,3 +1,7 @@
+<?php $this->contentFor('title') ?>
+Edit Post
+<?php $this->endContentFor() ?>
+
 <form class="post" action="<?= $this->urlFor('posts_update', ['params' => ['id' => $this->post['_id']]]); ?>" method="POST">
     <section class="title">
         <label>
@@ -12,7 +16,7 @@
     </section>
 
     <footer>
-        <input type="submit" value="Save this Post!">
+        <input type="submit" value="Save this Post!" class="primary">
         or <a href="<?= $this->urlFor('posts_show', ['params' => ['id' => $this->post['_id']]]); ?>">Cancel</a>
     </footer>
 

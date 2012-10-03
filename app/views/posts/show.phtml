@@ -3,7 +3,7 @@
         <div class="admin-options">
             <a href="<?= $this->urlFor('posts_edit', ['params' => ['id' => $this->post['_id']]]) ?>">Edit this Post</a>
 
-            <form class="delete inline" action="<?= $this->urlFor('posts_delete', ['params' => ['id' => $this->post['_id']]]) ?>" method="POST">
+            <form class="delete inline" action="<?= $this->urlFor('posts_destroy', ['params' => ['id' => $this->post['_id']]]) ?>" method="POST">
                 <input onclick="return confirm('Are you sure?');" type=submit value="Delete">
                 <input type=hidden name="_method" value="DELETE">
             </form>

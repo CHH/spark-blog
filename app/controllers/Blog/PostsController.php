@@ -10,19 +10,21 @@ class PostsController extends ApplicationController
     {
         $posts = $this->posts()->find()->sort(['created' => -1]);
 
-        # There's no magic involved here, it's just that PHP allows creating properties
-        # without defining them. The view is then bound to the controller instance, therefore
-        # this property is also available in the view.
-        #
-        # You can define this property by the way, make sure it's public though.
-        $this->posts = [];
+        # Setting a closure as value makes the property a computed property.
+        # The closure is evaluated and the result is cached when the property is
+        # first accessed in the view.
+        $this->posts = function() use ($posts) {
+            $postsByDate = [];
 
-        foreach ($posts as $post) {
-            $date = new \DateTime();
-            $date->setTimestamp($post['created']->sec);
+            foreach ($posts as $post) {
+                $date = new \DateTime();
+                $date->setTimestamp($post['created']->sec);
 
-            $this->posts[$date->format('M d Y')][] = $post;
-        }
+                $postsByDate[$date->format('M d Y')][] = $post;
+            }
+
+            return $postsByDate;
+        };
     }
 
     function newAction()
@@ -83,7 +85,7 @@ class PostsController extends ApplicationController
         return $this->redirect('posts_show', ['params' => ['id' => (string) $this->post['_id']]]);
     }
 
-    function deleteAction($id)
+    function destroyAction($id)
     {
         $this->posts()->remove(['_id' => new \MongoId($id)]);
 
@@ -108,7 +110,7 @@ class PostsController extends ApplicationController
 
     protected function slugify($title)
     {
-        $slug = str_replace(array(' '), '-', $title);
+        $slug = str_replace([' '], '-', $title);
         $slug = strtolower($slug);
         return $slug;
     }

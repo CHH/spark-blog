@@ -39,6 +39,16 @@
         top: 2px;
         box-shadow: 0 2px 0 darken(#eef, 5);
     }
+
+    &.primary {
+        background: lighten(blue, 10);
+        color: white;
+        box-shadow: 0 4px darken(blue, 5);
+
+        &:active {
+            box-shadow: 0 2px darken(blue, 5);
+        }
+    }
 }
 
 body {
