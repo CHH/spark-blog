@@ -2,6 +2,8 @@
 
 namespace Blog;
 
+use Doctrine\Common\Cache\ApcCache;
+
 $app['spark.app.name'] = 'Blog';
 # $app['spark.view_context_class'] = '\MyApp\ViewContext';
 
@@ -22,5 +24,6 @@ class ViewContext extends \Spark\Controller\ViewContext
     # Include your custom view helpers here.
 }
 
+require __DIR__ . '/pipe.php';
 require __DIR__ . '/database.php';
 

@@ -1,0 +1,26 @@
+<article>
+    <header>
+        <div class="admin-options">
+            <a href="<?= $this->urlFor('posts_edit', ['params' => ['id' => $this->post['_id']]]) ?>">Edit this Post</a>
+
+            <form class="delete inline" action="<?= $this->urlFor('posts_destroy', ['params' => ['id' => $this->post['_id']]]) ?>" method="POST">
+                <input onclick="return confirm('Are you sure?');" type=submit value="Delete">
+                <input type=hidden name="_method" value="DELETE">
+            </form>
+        </div>
+
+        <h1><?= $this->post['title'] ?></h1>
+
+        <div class="article-info">
+            Created <time><?= date('d/m/Y H:i', $this->post['created']->sec) ?></time>
+
+            <?php if (isset($this->post['updated'])): ?>
+            , Last Updated <time><?= date('d/m/Y H:i', $this->post['updated']->sec) ?></time>
+            <?php endif ?>
+        </div>
+    </header>
+
+    <section class="content">
+        <?= $this->post['content'] ?>
+    </section>
+</article>

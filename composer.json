@@ -5,7 +5,14 @@
     "require": {
         "spark/spark": "*@dev",
         "dflydev/markdown": "*@dev",
-        "ext-mongo": "*"
+        "ext-mongo": "*",
+        "jsonbuilder/jsonbuilder": "*@dev",
+        "chh/cache-service-provider": "*@dev"
+    },
+    "require-dev": {
+        "chh/bob": "*@dev",
+        "symfony/browser-kit": "*",
+        "symfony/css-selector": "*"
     },
     "minimum-stability": "dev"
 }
