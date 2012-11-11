@@ -75,7 +75,6 @@ class PostsController extends ApplicationController
         $post = array_intersect_key($this->request()->get('post'), array_flip(['title', 'content']));
         $post['slug'] = $this->slugify($post['title']);
 
-
         $this->post = array_merge($this->post, $post);
         $this->post['updated'] = new \MongoDate();
 
